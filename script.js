@@ -9,7 +9,7 @@ const slides = [];
 
 for (let i = 1; i <= imageCount; i++) {
   const img = new Image();
-  img.src = `${i}.png`;
+  img.src = `${i}.jpg`;
   img.onerror = () => {}; // silently skip missing images
   img.onload = () => {
     slideContainer.appendChild(img);
