@@ -1,28 +1,28 @@
-// Image filenames without extension
-const imageNames = ["1", "2", "3", "4", "5", "6", "7"]; // add more if needed
-const imageFolder = "images/";
-const extensions = [".jpg", ".jpeg", ".png", ".JPG", ".JPEG", ".PNG"];
+// Automatically load all images in same folder
+// (example: 1.png, 2.png, 3.png, etc.)
 
-const slidesContainer = document.getElementById("slides");
+const slideContainer = document.querySelector('.slides');
 
-imageNames.forEach(name => {
-  let found = false;
-  for (const ext of extensions) {
-    const img = new Image();
-    img.src = imageFolder + name + ext;
+// You can manually adjust the number of images or detect dynamically if needed.
+const imageCount = 10; // max expected count (won’t break if fewer exist)
+const slides = [];
 
-    img.onload = () => {
-      if (!found) {
-        const slideImg = document.createElement("img");
-        slideImg.src = img.src;
-        slideImg.alt = "Aniket & Rutuja";
-        slidesContainer.appendChild(slideImg);
-        found = true;
-      }
-    };
+for (let i = 1; i <= imageCount; i++) {
+  const img = new Image();
+  img.src = `${i}.png`;
+  img.onerror = () => {}; // silently skip missing images
+  img.onload = () => {
+    slideContainer.appendChild(img);
+    slides.push(img);
+    if (slides.length === 1) img.classList.add('active');
+  };
+}
 
-    img.onerror = () => {};
+let current = 0;
+setInterval(() => {
+  if (slides.length > 1) {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
   }
-});
-
-console.log("Aniket ❤️ Rutuja | Wedding 22 November 2025");
+}, 3000);
